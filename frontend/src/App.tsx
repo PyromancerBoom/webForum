@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import PostCard from './components/PostCard';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import PostForm from './components/PostForm';
+import PostCard from './components/PostCard';
 import { getPosts, createPost } from '../api/posts';
+import theme from './theme';
 
 interface Post {
   id: string;
@@ -37,10 +39,13 @@ function App() {
 
   return (
     <div>
+       <ThemeProvider theme={theme}>
+      <CssBaseline />
       <PostForm onSubmit={handleSubmit} />
       {posts.map(post => (
         <PostCard key={post.id} title={post.title} author={post.author} content={post.content} />
       ))}
+      </ThemeProvider>
     </div>
   );
 }

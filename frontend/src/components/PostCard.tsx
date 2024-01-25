@@ -1,4 +1,7 @@
 import React from 'react';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
 
 interface PostCardProps {
   title: string;
@@ -6,14 +9,22 @@ interface PostCardProps {
   content: string;
 }
 
-const PostCard: React.FC<PostCardProps> = ({ title, author, content }) => {
+function PostCard({ title, author, content }: PostCardProps) {
   return (
-    <div className="post-card">
-      <h2 className="post-title">{title}</h2>
-      <h3 className="post-author">Posted by: {author}</h3>
-      <p className="post-content">{content}</p>
-    </div>
+    <Card>
+      <CardContent>
+        <Typography variant="h5" component="div">
+          {title}
+        </Typography>
+        <Typography variant="subtitle1">
+          {author}
+        </Typography>
+        <Typography variant="body2">
+          {content}
+        </Typography>
+      </CardContent>
+    </Card>
   );
-};
+}
 
 export default PostCard;
