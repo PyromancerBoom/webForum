@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PostCard from './components/PostCard';
 import PostForm from './components/PostForm';
+import { getPosts, createPost } from '../api/posts';
 
 interface Post {
   id: string;
@@ -13,19 +14,25 @@ function App() {
   const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8080/posts')
-      .then(response => response.json())
-      .then(setPosts);
+    const fetchPosts = async () => {
+      try {
+        const posts = await getPosts();
+        setPosts(posts);
+      } catch (error) {
+        console.error('Failed to fetch posts:', error);
+      }
+    };
+
+    fetchPosts();
   }, []);
 
-  const handleSubmit = (title: string, author: string, content: string) => {
-    fetch('http://127.0.0.1:8080/posts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, author, content }),
-    })
-      .then(response => response.json())
-      .then((newPost: Post) => setPosts(oldPosts => [...oldPosts, newPost]));
+  const handleSubmit = async (title: string, author: string, content: string) => {
+    try {
+      const newPost = await createPost({ title, author, content });
+      setPosts(oldPosts => [...oldPosts, newPost]);
+    } catch (error) {
+      console.error('Failed to create post:', error);
+    }
   };
 
   return (
