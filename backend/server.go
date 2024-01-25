@@ -3,7 +3,8 @@ package main
 import (
 	"database/sql"
 
-	"github.com/gin-gonic/gin"
+	. "github.com/PyromancerBoom/webForum/internal"
+
 	_ "github.com/lib/pq"
 )
 
@@ -16,15 +17,8 @@ func main() {
 	defer db.Close()
 
 	// Create Gin router
-	router := gin.Default()
-
-	// Hi route
-	router.GET("/hi", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "Hello, World!",
-		})
-	})
+	router := SetupRouter()
 
 	// Start server
-	router.Run(":8080")
+	router.Run("127.0.0.1:8080")
 }
